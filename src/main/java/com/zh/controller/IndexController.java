@@ -23,9 +23,9 @@ public class IndexController {
     @Resource
     private DataService dataService;
 
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = "/")
     public String index() {
-        return "demo01";
+        return "index";
     }
 
     @ResponseBody
