@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zh.dao.EventLogDao">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap1" type="com.zh.bean.TramcarCount">
+		<result column="diff_min" property="diffSecond" />
+		<result column="query_time" property="queryTime" />
+		<result column="start_time" property="startTime" />
+		<result column="source_id" property="sourceId" />
+	</resultMap>
+
+	<select id="queryEventLogs" resultMap="BaseResultMap1"
+			parameterType="Object">
+		select start_time,source_id from vss_log_eventlog where event_type=131585
+		<if test="queryTimeFrom != null and queryTimeFrom!='' " >
+			and start_time>=to_date(#{queryTimeFrom},'yyyy-mm-dd hh:mm:ss')
+		</if>
+		<if test="queryTimeTo != null and queryTimeTo !='' " >
+			and start_time   <![CDATA[ <= ]]>to_date(#{queryTimeTo},'yyyy-mm-dd hh:mm:ss')
+		</if>
+		order by vss_log_eventlog_id
+	</select>
+
+
+	<!-- 查询分钟间隔  一天的-->
+	<select id="queryDiffOneDay" resultMap="BaseResultMap1" parameterType="Object">
+		select date_part('minute', (t2.start_time-t1.start_time)) diff_min,
+		t1.start_time query_time from 
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as row_num,
+		* from vss_log_eventlog where source_name='Camera 01') t1,
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as row_num,
+		* from vss_log_eventlog where source_name='Camera 02') t2
+		where t1.row_num=t2.row_num 
+		<if test="queryForOneDay != null and queryForOneDay !='' " >
+	    	and to_char(t1.start_time,'yyyy-mm-dd') = #{queryForOneDay}
+		</if>
+		<if test="queryTimeFrom != null and queryTimeFrom!='' " >
+	    	and t1.start_time>=to_date(#{queryTimeFrom},'yyyy-mm-dd')
+		</if>
+		<if test="queryTimeTo != null and queryTimeTo !='' " >
+	    	and t1.start_time   <![CDATA[ < ]]>to_date(#{queryTimeTo},'yyyy-mm-dd')
+		</if>
+		order by diff_min
+		<if test="pager.postgreSqlQueryCondition != null and pager.postgreSqlQueryCondition != ''" >
+	       ${pager.postgreSqlQueryCondition}
+	    </if>
+	</select>
+		<!-- 查询平均分钟间隔  间隔时间的-->
+	<select id="queryDiffInterval" resultMap="BaseResultMap1" parameterType="Object">
+		select round(cast(diff as numeric),2) diff_min,query_time from
+		(select sum(date_part('minute', (t2.start_time-t1.start_time)))/count(1) diff,
+		to_char(t1.start_time,'yyyy-mm-dd') query_time from 
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as row_num,
+		* from vss_log_eventlog where source_name='Camera 01') t1,
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as row_num,
+		* from vss_log_eventlog where source_name='Camera 02') t2
+		where t1.row_num=t2.row_num 
+		<if test="queryTimeFrom != null and queryTimeFrom!='' " >
+	    	and t1.start_time>=to_date(#{queryTimeFrom},'yyyy-mm-dd')
+		</if>
+		<if test="queryTimeTo != null and queryTimeTo !='' " >
+	    	and t1.start_time   <![CDATA[ < ]]>to_date(#{queryTimeTo},'yyyy-mm-dd')
+		</if>
+		group by to_char(t1.start_time,'yyyy-mm-dd')) t
+		order by diff_min
+	   <if test="pager.postgreSqlQueryCondition != null and pager.postgreSqlQueryCondition != ''" >
+	       ${pager.postgreSqlQueryCondition}
+	    </if>
+	</select>
+	<!-- 时点查询的总条数 -->
+	<select id="queryDayCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from 
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as row_num,
+		* from vss_log_eventlog where source_name='Camera 01') t1,
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as row_num,
+		* from vss_log_eventlog where source_name='Camera 02') t2
+		where t1.row_num=t2.row_num 
+		<if test="queryForOneDay != null and queryForOneDay !='' " >
+	    	and to_char(t1.start_time,'yyyy-mm-dd') = #{queryForOneDay}
+		</if>
+	</select>
+	<!-- 区间查询的总条数 -->
+	<select id="queryIntervalCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from
+		(select count(1) from 
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as row_num,
+		* from vss_log_eventlog where source_name='Camera 01') t1,
+		(select row_number() OVER (ORDER BY vss_log_eventlog_id) as 
+		row_num,* from vss_log_eventlog where source_name='Camera 02') t2
+		where t1.row_num=t2.row_num 
+		<if test="queryTimeFrom != null and queryTimeFrom!='' " >
+	    	and t1.start_time>=to_date(#{queryTimeFrom},'yyyy-mm-dd')
+		</if>
+		<if test="queryTimeTo != null and queryTimeTo !='' " >
+	    	and t1.start_time   <![CDATA[ < ]]>to_date(#{queryTimeTo},'yyyy-mm-dd')
+		</if>
+		group by to_char(t1.start_time,'yyyy-mm-dd')) t
+	</select>
+</mapper>   

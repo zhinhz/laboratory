@@ -1,0 +1,304 @@
+body {
+	padding: 0px;
+	margin: 0px;
+}
+
+/*顶部的logo图片及系统名称样式*/
+.header {
+	width: 1200px;
+	height: 70px;
+	margin: 0px auto;
+	padding: 5px;
+	background-color: #333366;
+}
+
+.header img {
+	position: absolute;
+	width: 200px;
+	height: 65px;
+	margin-left: 30px;
+}
+
+.header div {
+	float: left;
+	width: 100%;
+	height: 65px;
+	line-height: 65px;
+	text-align: center;
+	font-family: "楷体";
+	font-size:30px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+/*中间的监控内容部分样式*/
+.content {
+	width: 1200px;
+	height: auto;
+	margin: 0px auto;
+	padding: 5px;
+	background-color: #B5CFD9;
+}
+
+.content .query{/*查询部分的样式*/
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	padding: 0px;
+	background-color: transparent;
+}
+
+.content .query span{
+	float: left;
+	width: 250px;
+	height: 50px;
+	line-height: 50px;
+	margin: 0px 5px;
+}
+
+.content .query span input{
+	width: 150px;
+	height: 25px;
+	line-height: 25px;
+	padding: 0px;
+	padding-left: 5px;
+	margin-top: 0px;
+	border-radius: 3px;
+	border: solid 1px #1581DB;
+}
+
+.content .query span input:focus{
+	border: solid 2px #1581DB;
+}
+
+.content .query button{
+	float: right;
+	width: 65px;
+	height: 30px;
+	line-height: 30px;
+	padding: 0px;
+	margin: 10px 5px;
+	border-radius: 3px;
+	border: solid 1px #1581DB;
+	background-color: #268CE2;
+}
+
+.content .cknum-total{/*出矿次数汇总部分的样式*/
+	width: 1190px;
+	height: 500px;
+	padding: 5px;
+	margin-top: 10px;
+	background-color: #fff;
+}
+
+.content .cknum-total .cknum-title{
+	width: 1190px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px;
+	background-color: #384F61;
+	margin-top: -5px;
+	margin-left: -5px;
+	text-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.content .cknum-total .cknum-info{
+	width: 1180px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0px;
+	margin-top: 0px;
+	border-bottom: solid 2px rgba(49,111,111, 0.8);
+	text-align: center;
+	color: #000;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.content .cknum-total .cknum-left{
+	position: absolute;
+	width: 590px;
+	height: 400px;
+	padding: 0px;
+	margin-top: 10px;
+}
+
+.content .cknum-total .cknum-left .cknum-view{
+	width: 590px;
+	height:350px;
+}
+
+.content .cknum-total .cknum-right{
+	position: absolute;
+	width: 580px;
+	height: 400px;
+	padding: 0px;
+	margin-top: 10px;
+	margin-left: 600px;
+}
+
+.content .cknum-total .cknum-right .cklist-title{
+	width: 580px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0px;
+	text-align: center;
+	color: #000;
+	font-size: 18px;
+	font-family: "宋体";
+}
+
+.content .timeinte-total{/*时间间隔汇总部分的样式*/
+	width: 1190px;
+	height: 580px;
+	padding: 5px;
+	margin-top: 10px;
+	background-color: #fff;
+}
+
+.content .timeinte-total .timeinte-title{
+	width: 1190px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px;
+	background-color: #384F61;
+	margin-top: -5px;
+	margin-left: -5px;
+	text-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.content .timeinte-total .time-table{
+	width: 1180px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px;
+	margin-top: 10px;
+	border-collapse:collapse;
+	border: solid 1px rgba(49,111,111, 0.3);
+	border-left: transparent;
+	text-align: center;
+	color: #000;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.content .timeinte-total .time-table tr{
+	border: solid 1px rgba(49,111,111, 0.3);
+}
+
+.content .timeinte-total .time-table tr td{
+	border-left: solid 1px rgba(49,111,111, 0.3);
+}
+
+.content .timeinte-total .timeinte-left{
+	position: absolute;
+	width: 590px;
+	height: 400px;
+	padding: 0px;
+	margin-top: 10px;
+}
+
+.content .timeinte-total .timeinte-left .timeinte-view{
+	width: 590px;
+	height:350px;
+}
+
+.content .timeinte-total .timeinte-right{
+	position: absolute;
+	width: 580px;
+	height: 400px;
+	padding: 0px;
+	margin-top: 10px;
+	margin-left: 600px;
+}
+
+.content .timeinte-total .timeinte-right .timelist-title{
+	width: 580px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0px;
+	text-align: center;
+	color: #000;
+	font-size: 18px;
+	font-family: "宋体";
+}
+
+.content .details-total{/*查询详细结果部分的样式*/
+	width: 1190px;
+	height: 440px;
+	padding: 5px;
+	margin-top: 10px;
+	background-color: #fff;
+}
+
+.content .details-total .details-title{
+	width: 1190px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0px;
+	background-color: #384F61;
+	margin-top: -5px;
+	margin-left: -5px;
+	text-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.content .details-total .details-left{
+	position: absolute;
+	width: 590px;
+	height: 400px;
+	padding: 0px;
+	margin-top: 10px;
+}
+
+.content .details-total .details-left .details-view{
+	width: 590px;
+	height:350px;
+}
+
+.content .details-total .details-right{
+	position: absolute;
+	width: 580px;
+	height: 400px;
+	padding: 0px;
+	margin-top: 10px;
+	margin-left: 600px;
+}
+
+.content .details-total .details-right .deslist-title{
+	width: 580px;
+	height: 50px;
+	line-height: 50px;
+	padding: 0px;
+	text-align: center;
+	color: #000;
+	font-size: 18px;
+	font-family: "宋体";
+}
+
+/*底部版权说明及友情链接部分样式*/
+.footer {
+	width: 1200px;
+	height: 50px;
+	line-height: 50px;
+	margin: 0px auto;
+	padding: 0px;
+	background-color: #333366;
+	text-align: center;
+	font-family: "arial, helvetica, sans-serif";
+	font-size: 14px;
+	color: #FFFFFF;
+}
+
+.footer a {
+	text-decoration: none;
+	color: #15A1D2;
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <!--配置常量，在后面的配置中使用 -->
+    <property name="PROJECT_NAME" value="laboratory" />
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+    <property name="LOG_HOME" value="/logs/${PROJECT_NAME}" />
+    <!--定义日志输出格式 -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{username}][%X{INSIGHT_REQUEST_ID}][%thread] %-5level %logger{60} - %msg%n" />
+    <!-- 定义日志输出字符集 -->
+    <property name="LOG_CHARSET" value="UTF-8" />
+
+    <!-- 全量日志 -->
+    <appender name="PROJECT-COMMON" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${PROJECT_NAME}-common.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${PROJECT_NAME}-common_%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <!-- 错误日志 -->
+    <appender name="PROJECT-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${PROJECT_NAME}-error.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${PROJECT_NAME}-error_%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- （1）root中只配置控制台日志，其他所有的日志把additivity设置为true都打到控制台，方便开发阶段定位问题。 -->
+    <!-- （2）第三方框架的日志抽取到单独的文件中，并且级别为ERROR。 -->
+    <!-- root -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="PROJECT-COMMON" />
+        <appender-ref ref="PROJECT-ERROR" />
+    </root>
+    <!-- 这一句至关重要如果没有，就无法输出sql语句 -->
+    <logger name="com.zh.dao" level="DEBUG" additivity="true"></logger>
+</configuration>
