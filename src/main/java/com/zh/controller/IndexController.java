@@ -18,7 +18,6 @@ import java.io.IOException;
  */
 @Controller
 @EnableAutoConfiguration
-@ComponentScan
 public class IndexController {
     @Resource
     private DataService dataService;
@@ -34,15 +33,15 @@ public class IndexController {
         return dataService.getData(eventLog);
     }
 
-//    @RequestMapping("/pdfCreate")
-//    public void pdfCreate(EventLog model, HttpServletResponse response) {
-//        try {
-//            response.setHeader("Content-Disposition", "attachment;filename="
-//                    + new String("矿车时点日期查询情况.pdf".getBytes("utf-8"), "iso8859-1"));
-//            response.setContentType("application/ynd.ms-excel;charset=UTF-8");
-//            eventLogService.createPDF(response.getOutputStream(), model);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @RequestMapping("/pdfCreate")
+    public void pdfCreate(EventLog model, HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename="
+                    + new String("辽宁科技大学导出报告.pdf".getBytes("utf-8"), "iso8859-1"));
+            response.setContentType("application/ynd.ms-excel;charset=UTF-8");
+            dataService.createPDF(response.getOutputStream(), model);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

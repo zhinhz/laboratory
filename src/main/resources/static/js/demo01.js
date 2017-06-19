@@ -349,5 +349,9 @@ var drawQueryDetail = function(data){
 };
 
 var exportPDF = function(){
-	
+    var beginTime = $("#begin_date").val();
+    var endTime = $("#end_date").val();
+    console.log(beginTime);
+    console.log(endTime);
+    window.location.href="/pdfCreate?queryTimeFrom="+beginTime+"&queryTimeTo="+endTime;
 };

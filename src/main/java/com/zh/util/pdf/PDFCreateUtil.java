@@ -6,6 +6,10 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.zh.bean.TramcarCount;
+import com.zh.bean.result.CkData;
+import com.zh.bean.result.DataResult;
+import com.zh.bean.result.DetalData;
+import com.zh.bean.result.TimeData;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -134,40 +138,63 @@ public class PDFCreateUtil {
     /**
      * 生成报表
      */
-    public void generatePDF(String queryTime, int count, String avgDiffMin, List<TramcarCount> dataList, String type) throws Exception {
-        PdfPTable table = createTable(3);
-        table.addCell(createCell("矿车时点日期查询情况表", headfont, Element.ALIGN_CENTER, 3, false,
-                new BaseColor(141, 180, 226)));
-        table.addCell(createCell("查询日期:", keyfont, Element.ALIGN_CENTER, 1, false, null));
-        table.addCell(createCell(queryTime, textfont, Element.ALIGN_CENTER, 1, false, null));
-        table.addCell(createBlank(1));
-        table.addCell(createCell("矿车工作总次数:", keyfont, Element.ALIGN_CENTER, 1, false, null));
-        table.addCell(createCell(String.valueOf(count) + "次", textfont, Element.ALIGN_CENTER, 1,
-                false, null));
-        table.addCell(createBlank(1));
-        table.addCell(createCell("矿车平均间隔时间:", keyfont, Element.ALIGN_CENTER, 1, false, null));
-        table.addCell(createCell(avgDiffMin + "分钟", textfont, Element.ALIGN_CENTER, 1, false, null));
-        table.addCell(createBlank(1));
-        table.addCell(createBlank(3));
-        table.addCell(createBlank(3));
+    public void generatePDF( DataResult dataResult) throws Exception {
+        CkData ckData = dataResult.getCkData();
+        PdfPTable table = createTable(2);
+        table.addCell(createCell("无底柱分段崩落法放矿效果监测系统", headfont, Element.ALIGN_CENTER, 2, false,
+                new BaseColor(255, 255, 255)));
+        table.addCell(createBlank(10));
 
-        table.addCell(createCell("矿车当日运行时间情况", keyfont, Element.ALIGN_CENTER, 3, false, null));
-        table.addCell(createCell("序号", keyfont, Element.ALIGN_CENTER));
-        table.addCell(createCell("日期", keyfont, Element.ALIGN_CENTER));
+        table.addCell(createCell("出矿次数汇总", textfont, Element.ALIGN_LEFT, 2, false, null));
+        table.addCell(createCell("总共次数", textfont, Element.ALIGN_CENTER));
+        table.addCell(createCell(ckData.getTotalNum()+"次", textfont, Element.ALIGN_CENTER));
+        table.addCell(createCell("平均每天工作次数", textfont, Element.ALIGN_CENTER));
+        table.addCell(createCell(ckData.getAverNum()+"次", textfont, Element.ALIGN_CENTER));
 
-        String title = "";
-        if (DAY_TYPE.equals(type)) {
-            title = "间隔时间";
-        } else {
-            title = "平均间隔时间";
-        }
-        table.addCell(createCell(title, keyfont, Element.ALIGN_CENTER));
-        for (int i = 0; i < dataList.size(); i++) {
-            table.addCell(createCell(String.valueOf(i + 1), textfont));
-            table.addCell(createCell(dataList.get(0).getQueryTime(), textfont));
-            table.addCell(createCell(dataList.get(i).getDiffSecond() + "分钟", textfont));
+        table.addCell(createBlank(10));
+
+        TimeData timeData = dataResult.getTimeData();
+        PdfPTable table1 = createTable(6);
+        table1.addCell(createCell("时间间隔汇总", textfont, Element.ALIGN_LEFT, 6, false, null));
+        table1.addCell(createCell("", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("每次最长时间间隔", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("每次最短时间间隔", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("每天平均最长时间间隔", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("每天平均最短时间间隔", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("总平均时间间隔", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("时间", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMaxInterTime()+"分钟", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMinInterTime()+"分钟", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMaxEveryTime()+"分钟", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMinEveryTime()+"分钟", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getTotalAverTime()+"分钟", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("日期", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMaxInterDate(), textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMinInterDate(), textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMaxEveryDate(), textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMinEveryDate(), textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell("/", textfont, Element.ALIGN_CENTER));
+
+        table1.addCell(createBlank(10));
+        DetalData detalData = dataResult.getDetalData();
+        List<DetalData.ListData> listData = detalData.getListData();
+        PdfPTable table2 = createTable(5);
+        table2.addCell(createCell("查询详细结果", textfont, Element.ALIGN_LEFT, 5, false, null));
+        table2.addCell(createCell("序号", textfont, Element.ALIGN_CENTER));
+        table2.addCell(createCell("日期", textfont, Element.ALIGN_CENTER));
+        table2.addCell(createCell("进入时间", textfont, Element.ALIGN_CENTER));
+        table2.addCell(createCell("离开时间", textfont, Element.ALIGN_CENTER));
+        table2.addCell(createCell("间隔时间", textfont, Element.ALIGN_CENTER));
+        for (DetalData.ListData listDatum : listData) {
+            table2.addCell(createCell(listDatum.getId()+"", textfont, Element.ALIGN_CENTER));
+            table2.addCell(createCell(listDatum.getDate(), textfont, Element.ALIGN_CENTER));
+            table2.addCell(createCell(listDatum.getInTime(), textfont, Element.ALIGN_CENTER));
+            table2.addCell(createCell(listDatum.getOutTime(), textfont, Element.ALIGN_CENTER));
+            table2.addCell(createCell(listDatum.getInterTime()+"分钟", textfont, Element.ALIGN_CENTER));
         }
         document.add(table);
+        document.add(table1);
+        document.add(table2);
         document.close();
     }
 

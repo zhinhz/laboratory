@@ -5,11 +5,13 @@ import com.zh.bean.TramcarCount;
 import com.zh.bean.result.*;
 import com.zh.dao.EventLogDao;
 import com.zh.service.DataService;
+import com.zh.util.pdf.PDFCreateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -39,7 +41,19 @@ public class DataServiceImpl implements DataService {
         return dataResult;
     }
 
+    /**
+     * 生成报表
+     */
+    @Override
+    public void createPDF(OutputStream out, EventLog eventLog) {
+        DataResult data = getData(eventLog);
+        try {
+            new PDFCreateUtil(out).generatePDF(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
 
     private DetalData getDetalData(List<TramcarCount> dataList) {
         SimpleDateFormat sf = new SimpleDateFormat("HH:mm:ss");
