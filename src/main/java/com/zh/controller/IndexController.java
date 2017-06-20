@@ -37,7 +37,7 @@ public class IndexController {
     public void pdfCreate(EventLog model, HttpServletResponse response) {
         try {
             response.setHeader("Content-Disposition", "attachment;filename="
-                    + new String("辽宁科技大学导出报告.pdf".getBytes("utf-8"), "iso8859-1"));
+                    + new String("无底柱分段崩落法放矿效果监测系统.pdf".getBytes("utf-8"), "iso8859-1"));
             response.setContentType("application/ynd.ms-excel;charset=UTF-8");
             dataService.createPDF(response.getOutputStream(), model);
         } catch (IOException e) {
