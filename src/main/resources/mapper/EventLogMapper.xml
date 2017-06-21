@@ -15,10 +15,10 @@
 			parameterType="Object">
 		select start_time,source_id from vss_log_eventlog where event_type=131585
 		<if test="queryTimeFrom != null and queryTimeFrom!='' " >
-			and start_time>=to_date(#{queryTimeFrom},'yyyy-mm-dd hh24:mi:ss')
+			and start_time>=to_timestamp(#{queryTimeFrom},'yyyy-mm-dd hh24:mi:ss')
 		</if>
 		<if test="queryTimeTo != null and queryTimeTo !='' " >
-			and start_time   <![CDATA[ <= ]]>to_date(#{queryTimeTo},'yyyy-mm-dd hh24:mi:ss')
+			and start_time   <![CDATA[ <= ]]>to_timestamp(#{queryTimeTo},'yyyy-mm-dd hh24:mi:ss')
 		</if>
 		order by vss_log_eventlog_id
 	</select>
