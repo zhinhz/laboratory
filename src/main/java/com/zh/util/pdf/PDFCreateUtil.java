@@ -174,11 +174,11 @@ public class PDFCreateUtil {
         table1.addCell(createBackCell("每天平均最短时间间隔", textfont, Element.ALIGN_CENTER));
         table1.addCell(createBackCell("总平均时间间隔", textfont, Element.ALIGN_CENTER));
         table1.addCell(createBackCell("时间", textfont, Element.ALIGN_CENTER));
-        table1.addCell(createCell(timeData.getMaxInterTime()+"分钟", textfont, Element.ALIGN_CENTER));
-        table1.addCell(createCell(timeData.getMinInterTime()+"分钟", textfont, Element.ALIGN_CENTER));
-        table1.addCell(createCell(timeData.getMaxEveryTime()+"分钟", textfont, Element.ALIGN_CENTER));
-        table1.addCell(createCell(timeData.getMinEveryTime()+"分钟", textfont, Element.ALIGN_CENTER));
-        table1.addCell(createCell(timeData.getTotalAverTime()+"分钟", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMaxInterTime()+"秒", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMinInterTime()+"秒", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMaxEveryTime()+"秒", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getMinEveryTime()+"秒", textfont, Element.ALIGN_CENTER));
+        table1.addCell(createCell(timeData.getTotalAverTime()+"秒", textfont, Element.ALIGN_CENTER));
         table1.addCell(createBackCell("日期", textfont, Element.ALIGN_CENTER));
         table1.addCell(createCell(timeData.getMaxInterDate(), textfont, Element.ALIGN_CENTER));
         table1.addCell(createCell(timeData.getMinInterDate(), textfont, Element.ALIGN_CENTER));
@@ -201,7 +201,7 @@ public class PDFCreateUtil {
             table2.addCell(createCell(listDatum.getDate(), textfont, Element.ALIGN_CENTER));
             table2.addCell(createCell(listDatum.getInTime(), textfont, Element.ALIGN_CENTER));
             table2.addCell(createCell(listDatum.getOutTime(), textfont, Element.ALIGN_CENTER));
-            table2.addCell(createCell(listDatum.getInterTime()+"分钟", textfont, Element.ALIGN_CENTER));
+            table2.addCell(createCell(listDatum.getInterTime()+"秒", textfont, Element.ALIGN_CENTER));
         }
         document.add(title);
         document.add(table);
